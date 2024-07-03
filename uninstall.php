@@ -9,7 +9,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
   die();
 }
 
-$meta_key_prefix = 'wcpp';
+delete_option(WCPP_PROMOTED_PRODUCT_ID);
 
 // delete product meta
 

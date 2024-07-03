@@ -29,8 +29,9 @@ class WCPP_Promoted_Product {
 
   private function define_admin_hooks() {
     $product_fields = new WCPP_Product_Fields();
-    add_action('woocommerce_product_options_general_product_data', array($product_fields, 'add_promoted_field'));
-    add_action('woocommerce_process_product_meta', array($product_fields, 'save_promoted_field'));
+    add_action('woocommerce_product_options_general_product_data', array($product_fields, 'wcpp_add_promoted_field'));
+    add_action('woocommerce_process_product_meta', array($product_fields, 'wcpp_save_promoted_field'));
+    add_action('admin_notices', array($product_fields, 'wcpp_display_admin_notices'));
   }
 
   private function define_frontend_hooks() {
