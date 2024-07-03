@@ -1,0 +1,12 @@
+/.idea/
+.vscode/
+
+.DS_Store
+Thumbs.db
+
+/vendor/
+/node_modules/
+
+*.log
+*.tmp
+*.temp
