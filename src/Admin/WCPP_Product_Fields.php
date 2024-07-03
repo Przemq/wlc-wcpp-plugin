@@ -13,13 +13,25 @@ class WCPP_Product_Fields
     /**
      * Add promoted field to product.
      */
-    public function wcpp_add_promoted_field(): void
+    public function wcpp_add_promoted_checkbox_field(): void
     {
         \woocommerce_wp_checkbox(
             [
                 'id' => '_wcpp_promoted_product',
                 'label' => \__('Promote this product', 'woocommerce-promoted-product'),
                 'description' => \__('Check this box to mark as promoted product.', 'woocommerce-promoted-product'),
+            ]
+        );
+    }
+
+    public function wcpp_add_custom_title_field(): void
+    {
+        \woocommerce_wp_text_input(
+            [
+                'id' => '_wcpp_custom_title',
+                'label' => \__('Custom Title', 'woocommerce-promoted-product'),
+                'description' => \__('Enter a custom title for this promoted product.', 'woocommerce-promoted-product'),
+                'desc_tip' => true,
             ]
         );
     }
@@ -47,6 +59,12 @@ class WCPP_Product_Fields
                 \delete_post_meta($post_id, '_wcpp_promoted_product');
             }
         }
+    }
+
+    public function wcpp_save_custom_title(int $post_id): void
+    {
+        $custom_title = isset($_POST['_wcpp_custom_title']) ? \sanitize_text_field($_POST['_wcpp_custom_title']) : '';
+        \update_post_meta($post_id, '_wcpp_custom_title', $custom_title);
     }
 
     /**

@@ -8,14 +8,19 @@ if (!\defined('ABSPATH')) {
     exit;
 }
 
+use WoocommerceFeaturedProduct\Admin\WCPP_Admin_Notices;
 use WoocommerceFeaturedProduct\Admin\WCPP_Product_Fields;
 use WoocommerceFeaturedProduct\Frontend\WCPP_Display_Fields;
 
 class WCPP_Promoted_Product
 {
+    private $product_fields;
+    private $admin_notices;
+
     public function __construct()
     {
-        // to be updated
+        $this->product_fields = new WCPP_Product_Fields();
+        $this->admin_notices = new WCPP_Admin_Notices();
     }
 
     public function run(): void
@@ -33,10 +38,10 @@ class WCPP_Promoted_Product
 
     private function define_admin_hooks(): void
     {
-        $product_fields = new WCPP_Product_Fields();
-        \add_action('woocommerce_product_options_general_product_data', [$product_fields, 'wcpp_add_promoted_field']);
-        \add_action('woocommerce_process_product_meta', [$product_fields, 'wcpp_save_promoted_field']);
-        \add_action('admin_notices', [$product_fields, 'wcpp_display_admin_notices']);
+        \add_action('woocommerce_product_options_general_product_data', [$this->product_fields, 'wcpp_add_promoted_checkbox_field']);
+        \add_action('woocommerce_product_options_general_product_data', [$this->product_fields, 'wcpp_add_custom_title_field']);
+        \add_action('woocommerce_process_product_meta', [$this->product_fields, 'wcpp_save_promoted_field']);
+        \add_action('woocommerce_process_product_meta', [$this->product_fields, 'wcpp_save_custom_title']);
     }
 
     private function define_frontend_hooks(): void
