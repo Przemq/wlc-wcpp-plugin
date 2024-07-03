@@ -1,0 +1,5 @@
+msgid "Featured Product"
+msgstr "Polecany Produkt"
+
+msgid "Description of the promoted product."
+msgstr "Opis polecanego produktu."

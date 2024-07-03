@@ -1,0 +1,12 @@
+{
+  "name": "pkudla/woocommerce-promoted-product",
+  "description": "This plugin allows you to mark a product as promoted and display it in the header.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "autoload": {
+    "psr-4": {
+      "WoocommerceFeaturedProduct\\": "src/"
+    }
+  },
+  "require": {}
+}
