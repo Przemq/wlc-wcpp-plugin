@@ -15,6 +15,7 @@ class WCPP_Settings
         \add_filter('woocommerce_get_sections_products', [$this, 'wcpp_add_settings_section']);
         \add_filter('woocommerce_get_settings_products', [$this, 'wcpp_add_settings'], 10, 2);
         \add_action('woocommerce_admin_field_custom', [$this, 'wcpp_render_custom_field']);
+        \add_action('woocommerce_update_options_products_wcpp_settings', [$this, 'wcpp_clear_transient']);
     }
 
     public function wcpp_add_settings_section($sections): array
@@ -94,5 +95,10 @@ class WCPP_Settings
             \esc_html($product_title),
             \esc_url($edit_link)
         );
+    }
+
+    public function wcpp_clear_transient(): void
+    {
+        \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
     }
 }
