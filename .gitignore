@@ -6,6 +6,7 @@ Thumbs.db
 
 /vendor/
 /node_modules/
+/cache/
 
 *.log
 *.tmp

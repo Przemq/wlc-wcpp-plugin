@@ -4,12 +4,23 @@ declare(strict_types=1);
 
 namespace WoocommerceFeaturedProduct\Admin;
 
+use Twig\Environment;
+use WoocommerceFeaturedProduct\Providers\TwigProvider;
+
 if (!\defined('ABSPATH')) {
     exit;
 }
 
 class WCPP_Product_Fields
 {
+
+  private Environment $twig;
+  public function __construct()
+  {
+    $serviceProvider = new TwigProvider();
+    $this->twig = $serviceProvider->getTwig();
+  }
+
     /**
      * Add promoted field to product.
      */
@@ -60,11 +71,11 @@ class WCPP_Product_Fields
 
         $expiration_date = \get_post_meta($post->ID, WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE, true);
 
-        $field_id = WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE;
-        $field_label = \esc_html__('Expiration Date', 'woocommerce-promoted-product');
-        $field_placeholder = \esc_attr__('YYYY-MM-DD HH:MM', 'woocommerce-promoted-product');
-        $field_value = \esc_attr($expiration_date);
-
-        include \plugin_dir_path(\dirname(__DIR__)) . 'templates/promoted-expiration-date-field-template.php';
+      echo $this->twig->render('promoted-expiration-date-field-template.twig', [
+        'field_id' => WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE,
+        'field_label' => \esc_html__('Expiration Date', 'woocommerce-promoted-product'),
+        'field_placeholder' => \esc_attr__('YYYY-MM-DD HH:MM', 'woocommerce-promoted-product'),
+        'field_value' => \esc_attr($expiration_date),
+      ]);
     }
 }
