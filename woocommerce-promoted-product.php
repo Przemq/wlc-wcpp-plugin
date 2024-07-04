@@ -24,7 +24,7 @@ if (!\defined('WCPP_VERSION')) {
 }
 
 if (!\defined('WCPP_PROMOTED_PRODUCT_ID')) {
-    \define('WCPP_PROMOTED_PRODUCT_ID', 'wcpp_promoted_product_id-promoted-product');
+    \define('WCPP_PROMOTED_PRODUCT_ID', 'wcpp_promoted_product_id');
 }
 
 if (!\defined('WCPP_PLUGIN_FILE')) {

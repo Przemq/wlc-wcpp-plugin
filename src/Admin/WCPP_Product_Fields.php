@@ -44,8 +44,7 @@ class WCPP_Product_Fields
             [
                 'id' => '_wcpp_is_set_expiration',
                 'label' => \__('Set expiration date', 'woocommerce-promoted-product'),
-                'description' =>
-                  \__('Check this box to enable setting an expiration date.', 'woocommerce-promoted-product'),
+                'description' => \__('Check this box to enable setting an expiration date.', 'woocommerce-promoted-product'),
             ]
         );
     }
@@ -76,6 +75,7 @@ class WCPP_Product_Fields
      */
     public function wcpp_save_is_promoted_field(int $post_id): void
     {
+
         $is_promoted = isset($_POST[$this->is_promoted_product_meta_key])
           ? \sanitize_text_field($_POST[$this->is_promoted_product_meta_key])
           : 'no';
@@ -83,9 +83,9 @@ class WCPP_Product_Fields
 
         if ('yes' === $is_promoted) {
             if (!empty($current_promoted_id) && $current_promoted_id != $post_id) {
-                \set_transient('wcpp_already_promoted_notice', true, 5);
+                \set_transient('wcpp_already_promoted_notice', true, 10);
             } else {
-                \update_option('wcpp_promoted_product_id', $post_id);
+                \update_option(WCPP_PROMOTED_PRODUCT_ID, $post_id);
                 \update_post_meta($post_id, $this->is_promoted_product_meta_key, $is_promoted);
             }
         } else {

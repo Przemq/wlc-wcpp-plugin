@@ -10,17 +10,22 @@ if (!\defined('ABSPATH')) {
 
 use WoocommerceFeaturedProduct\Admin\WCPP_Admin_Notices;
 use WoocommerceFeaturedProduct\Admin\WCPP_Product_Fields;
-use WoocommerceFeaturedProduct\Frontend\WCPP_Display_Fields;
+use WoocommerceFeaturedProduct\Admin\WCPP_Settings;
+use WoocommerceFeaturedProduct\Frontend\WCPP_Views;
 
 class WCPP_Promoted_Product
 {
-    private $product_fields;
-    private $admin_notices;
+    private WCPP_Product_Fields $product_fields;
+    private WCPP_Admin_Notices $admin_notices;
+    private WCPP_Settings $settings;
+    private string $add_wc_option_hook = 'woocommerce_product_options_general_product_data';
+    private string $save_product_meta_hook = 'woocommerce_process_product_meta';
 
     public function __construct()
     {
         $this->product_fields = new WCPP_Product_Fields();
         $this->admin_notices = new WCPP_Admin_Notices();
+        $this->settings = new WCPP_Settings();
     }
 
     public function run(): void
@@ -38,20 +43,21 @@ class WCPP_Promoted_Product
 
     private function define_admin_hooks(): void
     {
-        \add_action('woocommerce_product_options_general_product_data', [$this->product_fields, 'wcpp_add_promoted_checkbox_field']);
-        \add_action('woocommerce_product_options_general_product_data', [$this->product_fields, 'wcpp_add_custom_title_field']);
-        \add_action('woocommerce_product_options_general_product_data', [$this->product_fields, 'wcpp_add_set_expiration_checkbox_field']);
-        \add_action('woocommerce_product_options_general_product_data', [$this->product_fields, 'wcpp_add_promoted_expiration_date_field']);
-        \add_action('woocommerce_process_product_meta', [$this->product_fields, 'wcpp_save_is_promoted_field']);
-        \add_action('woocommerce_process_product_meta', [$this->product_fields, 'wcpp_save_custom_title']);
-        \add_action('woocommerce_process_product_meta', [$this->product_fields, 'wcpp_save_is_expiration_field']);
-        \add_action('woocommerce_process_product_meta', [$this->product_fields, 'wcpp_save_promoted_expiration_date']);
+        \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_promoted_checkbox_field']);
+        \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_custom_title_field']);
+        \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_set_expiration_checkbox_field']);
+        \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_promoted_expiration_date_field']);
+        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_is_promoted_field']);
+        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_custom_title']);
+        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_is_expiration_field']);
+        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_promoted_expiration_date']);
     }
 
     private function define_frontend_hooks(): void
     {
-        $display_fields = new WCPP_Display_Fields();
-        \add_action('woocommerce_before_single_product', [$display_fields, 'display_promoted_product']);
+        $view = new WCPP_Views();
+        \add_action('woocommerce_before_main_content', [$view, 'wcpp_display_promoted_product']);
+        \add_action('wp_head', [$view, 'wcpp_display_promoted_product']);
     }
 
     private function define_global_hooks(): void
@@ -61,7 +67,11 @@ class WCPP_Promoted_Product
 
     public function load_textdomain(): void
     {
-        \load_plugin_textdomain('woocommerce-promoted-product', false, \dirname(\plugin_basename(__FILE__)) . '/languages');
+        \load_plugin_textdomain(
+            'woocommerce-promoted-product',
+            false,
+            \dirname(\plugin_basename(__FILE__)) . '/languages'
+        );
     }
 
     public function wcpp_enqueue_admin_scripts(): void
@@ -92,5 +102,6 @@ class WCPP_Promoted_Product
             WCPP_VERSION,
             true
         );
+        wp_enqueue_style('admin-styles', plugins_url('/assets/css/admin-styles.css', WCPP_PLUGIN_FILE));
     }
 }
