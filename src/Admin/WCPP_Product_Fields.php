@@ -82,11 +82,11 @@ class WCPP_Product_Fields
 
         if ('yes' === $is_promoted) {
             if (!empty($current_promoted_id) && $current_promoted_id != $post_id) {
-                \set_transient('wcpp_already_promoted_notice', true, 10);
-            } else {
-                \update_option(WCPP_PROMOTED_PRODUCT_ID, $post_id);
-                \update_post_meta($post_id, $this->is_promoted_product_meta_key, $is_promoted);
+                \delete_post_meta($current_promoted_id, $this->is_promoted_product_meta_key);
+                \set_transient('wcpp_promoted_product_changed_notice', true, 10);
             }
+            \update_option(WCPP_PROMOTED_PRODUCT_ID, $post_id);
+            \update_post_meta($post_id, $this->is_promoted_product_meta_key, $is_promoted);
         } else {
             if ($current_promoted_id == $post_id) {
                 \delete_option(WCPP_PROMOTED_PRODUCT_ID);

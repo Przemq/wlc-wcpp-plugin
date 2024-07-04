@@ -51,10 +51,9 @@ class WCPP_Actions
 
     private function wcpp_get_promoted_product_settings(): array
     {
-
-      $title_prefix = \get_option(WCPP_PROMOTED_PRODUCT_PREFIX) ?? 'FLASH SALE';
-      $background_color = \get_option(WCPP_PROMOTED_PRODUCT_BG) ?? '#FF0000';
-      $text_color = \get_option(WCPP_PROMOTED_PRODUCT_TEXT_COLOR) ?? '#FFFFFF';
+        $title_prefix = \get_option(WCPP_PROMOTED_PRODUCT_PREFIX) ?? 'FLASH SALE';
+        $background_color = \get_option(WCPP_PROMOTED_PRODUCT_BG) ?? '#FF0000';
+        $text_color = \get_option(WCPP_PROMOTED_PRODUCT_TEXT_COLOR) ?? '#FFFFFF';
 
         return [
             'title_prefix' => $title_prefix,
@@ -62,5 +61,4 @@ class WCPP_Actions
             'text_color' => $text_color,
         ];
     }
-
 }
