@@ -54,19 +54,15 @@ class PromotedProductBanner {
     const banner = document.createElement('div');
     banner.id = 'promoted-post-banner';
     banner.style.backgroundColor = data.settings.background_color;
-    banner.style.textAlign = 'center';
-    banner.style.padding = '10px';
+    banner.style.color = data.settings.text_color;
+    banner.classList.add('promoted-product-banner');
+
+    banner.textContent = `${data.settings.title_prefix}: `;
 
     const link = document.createElement('a');
     link.href = data.permalink;
-    link.style.color = data.settings.text_color;
-    link.style.textDecoration = 'none';
+    link.textContent = data.title;
 
-    const strong = document.createElement('strong');
-    strong.textContent = data.settings.title_prefix + ": ";
-
-    link.appendChild(strong);
-    link.appendChild(document.createTextNode(data.title));
     banner.appendChild(link);
 
     const header = document.querySelector('header');
@@ -77,6 +73,7 @@ class PromotedProductBanner {
     }
   }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   new PromotedProductBanner(wcpp_ajax.ajax_url, wcpp_ajax.nonce);
 });

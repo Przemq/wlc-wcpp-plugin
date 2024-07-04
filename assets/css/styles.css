@@ -1,0 +1,17 @@
+.wcpp_is_promoted_product {
+    font-weight: bold;
+    color: green;
+}
+
+.promoted-product-banner {
+    text-align: center;
+    padding: 15px;
+}
+
+.promoted-product-banner a {
+    color: inherit;
+}
+
+.promoted-product-banner-prefix {
+    font-weight: bold;
+}
