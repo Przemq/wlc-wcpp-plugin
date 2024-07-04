@@ -58,6 +58,7 @@ class WCPP_Promoted_Product
         \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_custom_title']);
         \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_is_expiration_field']);
         \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_promoted_expiration_date']);
+        \add_action('admin_notices', [$this->admin_notices, 'wcpp_display_promoted_product_changed_message']);
     }
 
     private function define_frontend_hooks(): void

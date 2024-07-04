@@ -15,7 +15,7 @@ License:     GPL2
 use WoocommerceFeaturedProduct\WCPP_Promoted_Product;
 
 if (!\defined('ABSPATH')) {
-    exit;
+  exit('You are not allowed to be here');
 }
 
 require_once __DIR__ . '/vendor/autoload.php';

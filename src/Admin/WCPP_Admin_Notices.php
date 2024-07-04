@@ -10,11 +10,6 @@ if (!\defined('ABSPATH')) {
 
 class WCPP_Admin_Notices
 {
-    public function __construct()
-    {
-        \add_action('admin_notices', [$this, 'wcpp_display_promoted_product_changed_message']);
-    }
-
     public function wcpp_display_promoted_product_changed_message(): void
     {
         if (\get_transient('wcpp_promoted_product_changed_notice')) {

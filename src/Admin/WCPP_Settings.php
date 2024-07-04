@@ -12,10 +12,15 @@ class WCPP_Settings
 {
     public function __construct()
     {
-        \add_filter('woocommerce_get_sections_products', [$this, 'wcpp_add_settings_section']);
-        \add_filter('woocommerce_get_settings_products', [$this, 'wcpp_add_settings'], 10, 2);
-        \add_action('woocommerce_admin_field_custom', [$this, 'wcpp_render_custom_field']);
-        \add_action('woocommerce_update_options_products_wcpp_settings', [$this, 'wcpp_clear_transient']);
+       $this->wcpp_register_promoted_product_settings();
+    }
+
+    public function wcpp_register_promoted_product_settings(): void
+    {
+      \add_filter('woocommerce_get_sections_products', [$this, 'wcpp_add_settings_section']);
+      \add_filter('woocommerce_get_settings_products', [$this, 'wcpp_add_settings'], 10, 2);
+      \add_action('woocommerce_admin_field_custom', [$this, 'wcpp_render_custom_field']);
+      \add_action('woocommerce_update_options_products_wcpp_settings', [$this, 'wcpp_clear_transient']);
     }
 
     public function wcpp_add_settings_section($sections): array
