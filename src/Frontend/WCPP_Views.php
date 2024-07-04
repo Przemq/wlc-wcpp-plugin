@@ -10,8 +10,13 @@ if (!\defined('ABSPATH')) {
 
 class WCPP_Views
 {
-    public function wcpp_display_promoted_product(): void
+    public function wcpp_add_info_to_promoted_product(): void
     {
+      global $product;
+      $is_promoted = get_post_meta($product->get_id(), WCPP_IS_PROMOTED_PRODUCT, true);
 
+      if ('yes' === $is_promoted) {
+        echo '<p style="font-weight: bold; color: green;">THIS IS PROMOTED PRODUCT</p>';
+      }
     }
 }

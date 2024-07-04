@@ -10,6 +10,7 @@ if (!\defined('ABSPATH')) {
 
 use WoocommerceFeaturedProduct\Admin\WCPP_Actions;
 use WoocommerceFeaturedProduct\Admin\WCPP_Admin_Notices;
+use WoocommerceFeaturedProduct\Admin\WCPP_Product_Data_Handler;
 use WoocommerceFeaturedProduct\Admin\WCPP_Product_Fields;
 use WoocommerceFeaturedProduct\Admin\WCPP_Settings;
 use WoocommerceFeaturedProduct\Frontend\WCPP_Views;
@@ -19,7 +20,7 @@ class WCPP_Promoted_Product
     private WCPP_Product_Fields $product_fields;
     private WCPP_Admin_Notices $admin_notices;
     private WCPP_Settings $settings;
-
+    private WCPP_Product_Data_Handler $data_handler;
     private WCPP_Actions $actions;
     private string $add_wc_option_hook = 'woocommerce_product_options_general_product_data';
     private string $save_product_meta_hook = 'woocommerce_process_product_meta';
@@ -27,6 +28,7 @@ class WCPP_Promoted_Product
     public function __construct()
     {
         $this->product_fields = new WCPP_Product_Fields();
+        $this->data_handler = new WCPP_Product_Data_Handler();
         $this->admin_notices = new WCPP_Admin_Notices();
         $this->settings = new WCPP_Settings();
         $this->actions = new WCPP_Actions();
@@ -52,16 +54,16 @@ class WCPP_Promoted_Product
         \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_custom_title_field']);
         \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_set_expiration_checkbox_field']);
         \add_action($this->add_wc_option_hook, [$this->product_fields, 'wcpp_add_promoted_expiration_date_field']);
-        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_is_promoted_field']);
-        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_custom_title']);
-        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_is_expiration_field']);
-        \add_action($this->save_product_meta_hook, [$this->product_fields, 'wcpp_save_promoted_expiration_date']);
+        \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_is_promoted_field']);
+        \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_custom_title']);
+        \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_is_expiration_field']);
+        \add_action($this->save_product_meta_hook, [$this->data_handler, 'wcpp_save_promoted_expiration_date']);
     }
 
     private function define_frontend_hooks(): void
     {
         $view = new WCPP_Views();
-        \add_action('woocommerce_before_main_content', [$view, 'wcpp_display_promoted_product']);
+        \add_action('woocommerce_single_product_summary', [$view, 'wcpp_add_info_to_promoted_product']);
     }
 
     public function define_global_hooks(): void
