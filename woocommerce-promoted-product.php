@@ -31,6 +31,13 @@ if (!\defined('WCPP_PLUGIN_FILE')) {
     \define('WCPP_PLUGIN_FILE', __FILE__);
 }
 
+
+\define('WCPP_CUSTOM_TITLE_META_KEY', '_wcpp_custom_title');
+\define('WCPP_PROMOTED_PRODUCT_PREFIX', 'wcpp_promoted_product_prefix');
+\define('WCPP_PROMOTED_PRODUCT_BG', 'wcpp_background_color');
+\define('WCPP_PROMOTED_PRODUCT_TEXT_COLOR', 'wcpp_text_color');
+
+
 /**
  * Initialize the plugin.
  */

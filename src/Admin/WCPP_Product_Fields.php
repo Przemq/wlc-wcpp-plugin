@@ -30,7 +30,7 @@ class WCPP_Product_Fields
     {
         \woocommerce_wp_text_input(
             [
-                'id' => '_wcpp_custom_title',
+                'id' => WCPP_CUSTOM_TITLE_META_KEY,
                 'label' => \__('Custom Title', 'woocommerce-promoted-product'),
                 'description' => \__('Enter a custom title for this promoted product.', 'woocommerce-promoted-product'),
                 'desc_tip' => true,
@@ -75,7 +75,6 @@ class WCPP_Product_Fields
      */
     public function wcpp_save_is_promoted_field(int $post_id): void
     {
-
         $is_promoted = isset($_POST[$this->is_promoted_product_meta_key])
           ? \sanitize_text_field($_POST[$this->is_promoted_product_meta_key])
           : 'no';
@@ -98,12 +97,12 @@ class WCPP_Product_Fields
 
     public function wcpp_save_custom_title(int $post_id): void
     {
-        if (!isset($_POST['_wcpp_custom_title'])) {
+        if (!isset($_POST[WCPP_CUSTOM_TITLE_META_KEY])) {
             return;
         }
 
-        $custom_title = \sanitize_text_field($_POST['_wcpp_custom_title']);
-        \update_post_meta($post_id, '_wcpp_custom_title', $custom_title);
+        $custom_title = \sanitize_text_field($_POST[WCPP_CUSTOM_TITLE_META_KEY]);
+        \update_post_meta($post_id, WCPP_CUSTOM_TITLE_META_KEY, $custom_title);
     }
 
     public function wcpp_save_promoted_expiration_date(int $post_id): void

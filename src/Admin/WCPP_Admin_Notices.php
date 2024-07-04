@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace WoocommerceFeaturedProduct\Admin;
 
+if (!\defined('ABSPATH')) {
+    exit('You are not allowed to be here');
+}
+
 class WCPP_Admin_Notices
 {
     public function __construct()
