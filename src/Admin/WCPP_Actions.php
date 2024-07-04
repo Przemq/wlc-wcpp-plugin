@@ -23,6 +23,12 @@ class WCPP_Actions
 
     public function wcpp_get_promoted_product(): void
     {
+        if (!isset($_POST['nonce']) || !\wp_verify_nonce($_POST['nonce'], 'wcpp_get_promoted_product')) {
+            \wp_send_json_error('Forbidden action.');
+
+            return;
+        }
+
         $promoted_post_id = (int) \get_option(WCPP_PROMOTED_PRODUCT_ID);
         if (!$promoted_post_id) {
             \wp_send_json_error('No promoted product set.');
