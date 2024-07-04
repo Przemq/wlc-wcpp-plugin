@@ -6,7 +6,7 @@ declare(strict_types=1);
 Plugin Name: Woocommerce Promoted Product
 Plugin URI:  https://whitelabelcoders.com/wordpress-development-agency/wordpress-plugin-development/
 Description: This plugin allows you to mark a product as promoted and display it in the header.
-Version:     1.4.0
+Version:     1.4.1
 Author:      Przemysław Kudła
 Author URI:  https://www.linkedin.com/in/przemyslawkudla/
 License:     GPL2
@@ -20,7 +20,7 @@ if (!\defined('ABSPATH')) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-\define('WCPP_VERSION', '1.4.0');
+\define('WCPP_VERSION', '1.4.1');
 \define('WCPP_PROMOTED_PRODUCT_ID', 'wcpp_promoted_product_id');
 \define('WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE', '_wcpp_promoted_expiration_date');
 \define('WCPP_IS_PROMOTED_PRODUCT', '_wcpp_is_promoted_product');
@@ -53,7 +53,6 @@ function wcpp_init(): void
 
         return;
     }
-
 
     $plugin = new WCPP_Promoted_Product();
     $plugin->run();

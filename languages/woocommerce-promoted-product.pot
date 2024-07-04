@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-04 22:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Admin/WCPP_Product_Fields.php:30
+msgid "Promote this product"
+msgstr ""
+
+#: src/Admin/WCPP_Product_Fields.php:31
+msgid "Check this box to mark as promoted product."
+msgstr ""
+
+#: src/Admin/WCPP_Product_Fields.php:44
+msgid "Custom Title"
+msgstr ""
+
+#: src/Admin/WCPP_Product_Fields.php:45
+msgid "Enter a custom title for this promoted product."
+msgstr ""
+
+#: src/Admin/WCPP_Product_Fields.php:59
+msgid "Set expiration date"
+msgstr ""
+
+#: src/Admin/WCPP_Product_Fields.php:60
+msgid "Check this box to enable setting an expiration date."
+msgstr ""
+
+#: src/Admin/WCPP_Admin_Notices.php:27
+msgid "The promoted product has been updated."
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:33
+msgid "Promoted Product"
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:43
+msgid "Promoted Product Settings"
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:48
+msgid "Promoted Product Prefix"
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:50
+msgid "Title for the promoted product, e.g., \"FLASH SALE:\""
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:54
+msgid "Background Color"
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:56
+msgid "Choose a background color for the promoted product."
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:60
+msgid "Text Color"
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:62
+msgid "Choose a text color for the promoted product."
+msgstr ""
+
+#: src/Admin/WCPP_Settings.php:93 src/Admin/WCPP_Settings.php:98
+msgid "No active promoted product."
+msgstr ""

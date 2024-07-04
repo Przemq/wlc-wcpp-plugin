@@ -69,15 +69,15 @@ class WCPP_Promoted_Product
 
     public function define_global_hooks(): void
     {
-        \add_action('init', [$this, 'load_textdomain']);
+        \add_action('init', [$this, 'wcpp_load_textdomain']);
     }
 
-    public function load_textdomain(): void
+    public function wcpp_load_textdomain(): void
     {
-        \load_plugin_textdomain(
+        load_plugin_textdomain(
             'woocommerce-promoted-product',
             false,
-            \dirname(\plugin_basename(__FILE__)) . '/languages'
+            basename(dirname(WCPP_PLUGIN_FILE)) . '/languages/'
         );
     }
 
@@ -123,8 +123,8 @@ class WCPP_Promoted_Product
         );
 
         \wp_localize_script('wcpp-frontend-scripts', 'wcpp_ajax', [
-            'ajax_url' => \admin_url('admin-ajax.php'),
-            'nonce'    => \wp_create_nonce('wcpp_get_promoted_product'),
+          'ajax_url' => \admin_url('admin-ajax.php'),
+          'nonce'    => \wp_create_nonce('wcpp_get_promoted_product'),
         ]);
 
         \wp_enqueue_style('frontend-styles', \plugins_url('/assets/css/styles.css', WCPP_PLUGIN_FILE));

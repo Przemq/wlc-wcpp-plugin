@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace WoocommerceFeaturedProduct\Admin;
 
+use Twig\Environment;
+use WoocommerceFeaturedProduct\Providers\TwigProvider;
+
 if (!\defined('ABSPATH')) {
     exit('You are not allowed to be here');
 }
 
 class WCPP_Settings
 {
+    private Environment $twig;
     public function __construct()
     {
+        $this->twig = TwigProvider::getInstance()->getTwig();
         $this->wcpp_register_promoted_product_settings();
     }
 
@@ -95,11 +100,10 @@ class WCPP_Settings
 
         $edit_link = \admin_url('post.php?post=' . $active_promoted_product_id . '&action=edit');
 
-        return \sprintf(
-            \__('<span class="wcpp_promoted_product">Current promoted product</span> %s | <a href="%s">Edit</a>', 'woocommerce-promoted-product'),
-            \esc_html($product_title),
-            \esc_url($edit_link)
-        );
+      return $this->twig->render('active-promoted-product-display.twig', [
+        'product_title' => $product_title,
+        'edit_link' => $edit_link,
+      ]);
     }
 
     public function wcpp_clear_transient(): void
