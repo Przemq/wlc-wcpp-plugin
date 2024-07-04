@@ -91,6 +91,8 @@ class WCPP_Product_Fields
                 \delete_post_meta($post_id, WCPP_IS_PROMOTED_PRODUCT);
             }
         }
+
+        \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
     }
 
     public function wcpp_save_custom_title(int $post_id): void
@@ -101,6 +103,8 @@ class WCPP_Product_Fields
 
         $custom_title = \sanitize_text_field($_POST[WCPP_CUSTOM_TITLE_META_KEY]);
         \update_post_meta($post_id, WCPP_CUSTOM_TITLE_META_KEY, $custom_title);
+
+      \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
     }
 
     public function wcpp_save_promoted_expiration_date(int $post_id): void
@@ -112,6 +116,8 @@ class WCPP_Product_Fields
         $expiration_date_raw = $_POST[WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE];
         $expiration_date = \sanitize_text_field($expiration_date_raw);
         \update_post_meta($post_id, WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE, $expiration_date);
+
+      \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
     }
 
     public function wcpp_save_is_expiration_field(int $post_id): void
@@ -119,5 +125,7 @@ class WCPP_Product_Fields
         $is_expiration = isset($_POST[WCPP_IS_SET_EXPIRTAION]) ? 'yes' : 'no';
         $is_expiration = \sanitize_text_field($is_expiration);
         \update_post_meta($post_id, WCPP_IS_SET_EXPIRTAION, $is_expiration);
+
+      \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
     }
 }

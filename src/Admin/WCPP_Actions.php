@@ -21,48 +21,58 @@ class WCPP_Actions
         \add_action('wp_ajax_wcpp_get_promoted_product', [$this, 'wcpp_get_promoted_product']);
     }
 
-    public function wcpp_get_promoted_product(): void
-    {
-        if (!isset($_POST['nonce']) || !\wp_verify_nonce($_POST['nonce'], 'wcpp_get_promoted_product')) {
-            \wp_send_json_error('Forbidden action.');
-
-            return;
-        }
-
-        $promoted_post_id = (int) \get_option(WCPP_PROMOTED_PRODUCT_ID);
-        if (!$promoted_post_id) {
-            \wp_send_json_error('No promoted product set.');
-
-            return;
-        }
-
-        if ($this->wcpp_is_promoted_product_expired($promoted_post_id)) {
-            \wp_send_json_error('Promoted product has expired.');
-
-            return;
-        }
-
-        $post = \get_post($promoted_post_id);
-
-        if (!$post) {
-            \wp_send_json_error('Promoted product not found.');
-
-            return;
-        }
-
-        $custom_title = \get_post_meta($promoted_post_id, WCPP_CUSTOM_TITLE_META_KEY, true);
-        $permalink = \get_permalink($promoted_post_id);
-        $title = \get_the_title($promoted_post_id);
-        $title = empty($custom_title) ? $title : $custom_title;
-
-        \wp_send_json_success([
-            'title' => $title,
-            'permalink' => $permalink,
-            'settings' => $this->wcpp_get_promoted_product_settings(),
-        ]);
+  /**
+   * Get promoted product data and save it to transient.
+   * @return void
+   */
+  public function wcpp_get_promoted_product(): void
+  {
+    if (!isset($_POST['nonce']) || !\wp_verify_nonce($_POST['nonce'], 'wcpp_get_promoted_product')) {
+      \wp_send_json_error('Forbidden action.');
+      return;
     }
 
-    private function wcpp_get_promoted_product_settings(): array
+    $cached_product = \get_transient('wcpp_promoted_product_data');
+    if ($cached_product) {
+      \wp_send_json_success($cached_product);
+      return;
+    }
+
+    $promoted_post_id = (int) \get_option(WCPP_PROMOTED_PRODUCT_ID);
+    if (!$promoted_post_id) {
+      \wp_send_json_error('No promoted product set.');
+      return;
+    }
+
+    if ($this->wcpp_is_promoted_product_expired($promoted_post_id)) {
+      \wp_send_json_error('Promoted product has expired.');
+      return;
+    }
+
+    $post = \get_post($promoted_post_id);
+    if (!$post) {
+      \wp_send_json_error('Promoted product not found.');
+      return;
+    }
+
+    $custom_title = \get_post_meta($promoted_post_id, WCPP_CUSTOM_TITLE_META_KEY, true);
+    $permalink = \get_permalink($promoted_post_id);
+    $title = \get_the_title($promoted_post_id);
+    $title = empty($custom_title) ? $title : $custom_title;
+
+    $product_data = [
+      'title' => $title,
+      'permalink' => $permalink,
+      'settings' => $this->wcpp_get_promoted_product_settings(),
+    ];
+
+    \set_transient(WCPP_PROMOTED_PRODUCT_DATA, $product_data, 5 * MINUTE_IN_SECONDS);
+
+    \wp_send_json_success($product_data);
+  }
+
+
+  private function wcpp_get_promoted_product_settings(): array
     {
         $title_prefix = \get_option(WCPP_PROMOTED_PRODUCT_PREFIX) ?? 'FLASH SALE';
         $background_color = \get_option(WCPP_PROMOTED_PRODUCT_BG) ?? '#FF0000';
