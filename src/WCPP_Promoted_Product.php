@@ -125,5 +125,7 @@ class WCPP_Promoted_Product
             'ajax_url' => \admin_url('admin-ajax.php'),
             'nonce' => \wp_create_nonce('wcpp_get_promoted_product'),
         ]);
+
+        \wp_enqueue_style('frontend-styles', \plugins_url('/assets/css/styles.css', WCPP_PLUGIN_FILE));
     }
 }
