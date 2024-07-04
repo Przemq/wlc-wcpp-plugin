@@ -12,15 +12,15 @@ class WCPP_Settings
 {
     public function __construct()
     {
-       $this->wcpp_register_promoted_product_settings();
+        $this->wcpp_register_promoted_product_settings();
     }
 
     public function wcpp_register_promoted_product_settings(): void
     {
-      \add_filter('woocommerce_get_sections_products', [$this, 'wcpp_add_settings_section']);
-      \add_filter('woocommerce_get_settings_products', [$this, 'wcpp_add_settings'], 10, 2);
-      \add_action('woocommerce_admin_field_custom', [$this, 'wcpp_render_custom_field']);
-      \add_action('woocommerce_update_options_products_wcpp_settings', [$this, 'wcpp_clear_transient']);
+        \add_filter('woocommerce_get_sections_products', [$this, 'wcpp_add_settings_section']);
+        \add_filter('woocommerce_get_settings_products', [$this, 'wcpp_add_settings'], 10, 2);
+        \add_action('woocommerce_admin_field_custom', [$this, 'wcpp_render_custom_field']);
+        \add_action('woocommerce_update_options_products_wcpp_settings', [$this, 'wcpp_clear_transient']);
     }
 
     public function wcpp_add_settings_section($sections): array
@@ -36,35 +36,35 @@ class WCPP_Settings
             $custom_settings = [
                 [
                     'title' => \__('Promoted Product Settings', 'woocommerce-promoted-product'),
-                    'type' => 'title',
-                    'id' => 'wcpp_settings_title',
+                    'type'  => 'title',
+                    'id'    => 'wcpp_settings_title',
                 ],
                 [
                     'title' => \__('Promoted Product Prefix', 'woocommerce-promoted-product'),
-                    'type' => 'text',
-                    'desc' => \__('Title for the promoted product, e.g., "FLASH SALE:"', 'woocommerce-promoted-product'),
-                    'id' => WCPP_PROMOTED_PRODUCT_PREFIX,
+                    'type'  => 'text',
+                    'desc'  => \__('Title for the promoted product, e.g., "FLASH SALE:"', 'woocommerce-promoted-product'),
+                    'id'    => WCPP_PROMOTED_PRODUCT_PREFIX,
                 ],
                 [
                     'title' => \__('Background Color', 'woocommerce-promoted-product'),
-                    'type' => 'color',
-                    'desc' => \__('Choose a background color for the promoted product.', 'woocommerce-promoted-product'),
-                    'id' => WCPP_PROMOTED_PRODUCT_BG,
+                    'type'  => 'color',
+                    'desc'  => \__('Choose a background color for the promoted product.', 'woocommerce-promoted-product'),
+                    'id'    => WCPP_PROMOTED_PRODUCT_BG,
                 ],
                 [
                     'title' => \__('Text Color', 'woocommerce-promoted-product'),
-                    'type' => 'color',
-                    'desc' => \__('Choose a text color for the promoted product.', 'woocommerce-promoted-product'),
-                    'id' => WCPP_PROMOTED_PRODUCT_TEXT_COLOR,
+                    'type'  => 'color',
+                    'desc'  => \__('Choose a text color for the promoted product.', 'woocommerce-promoted-product'),
+                    'id'    => WCPP_PROMOTED_PRODUCT_TEXT_COLOR,
                 ],
                 [
                     'type' => 'custom',
-                    'id' => 'wcpp_active_promoted_product_display',
+                    'id'   => 'wcpp_active_promoted_product_display',
                     'desc' => $this->wcpp_get_active_promoted_product_display(),
                 ],
                 [
                     'type' => 'sectionend',
-                    'id' => 'wcpp_settings_end',
+                    'id'   => 'wcpp_settings_end',
                 ],
             ];
 

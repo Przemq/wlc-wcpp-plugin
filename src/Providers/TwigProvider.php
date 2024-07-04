@@ -7,32 +7,32 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigProvider
 {
-  private static $instance = null;
+    private static $instance = null;
 
-  private $twig;
+    private $twig;
 
 
     public function __construct()
     {
-      $pluginDirPath = plugin_dir_path(WCPP_PLUGIN_FILE);
-      $templatePath = $pluginDirPath . 'templates';
-      $cachePath = $pluginDirPath . 'cache';
+        $pluginDirPath = plugin_dir_path(WCPP_PLUGIN_FILE);
+        $templatePath = $pluginDirPath . 'templates';
+        $cachePath = $pluginDirPath . 'cache';
 
 
-      $loader = new FilesystemLoader($templatePath);
-      $this->twig = new Environment($loader, [
-        'cache' => $cachePath,
-      ]);
+        $loader = new FilesystemLoader($templatePath);
+        $this->twig = new Environment($loader, [
+          'cache' => $cachePath,
+        ]);
     }
 
-  public static function getInstance(): self
-  {
-    if (self::$instance === null) {
-      self::$instance = new self();
-    }
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-    return self::$instance;
-  }
+        return self::$instance;
+    }
 
     public function getTwig(): Environment
     {

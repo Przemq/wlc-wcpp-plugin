@@ -2,27 +2,51 @@
 
 declare(strict_types=1);
 
-return (new PhpCsFixer\Config())
+$finder = PhpCsFixer\Finder::create()
+  ->in(__DIR__)
+  ->name('*.php')
+  ->exclude(['vendor', 'cache']);
+
+$config = new PhpCsFixer\Config();
+return $config
   ->setRiskyAllowed(true)
-  ->setLineEnding("\n")
-  ->setUsingCache(false)
   ->setRules([
-    '@PSR12' => true,
-    '@PhpCsFixer' => true,
-    '@Symfony' => true,
-    '@PHP80Migration' => true,
-    'not_operator_with_successor_space' => false,
+    '@PSR2' => true,
+    'array_syntax' => ['syntax' => 'short'],
+    'align_multiline_comment' => true,
+    'binary_operator_spaces' => [
+      'default' => 'single_space',
+      'operators' => ['=>' => 'align_single_space_minimal'],
+    ],
+    'blank_line_before_statement' => [
+      'statements' => ['return'],
+    ],
+    'braces' => [
+      'allow_single_line_closure' => true,
+    ],
     'concat_space' => ['spacing' => 'one'],
-    'declare_strict_types' => true,
-    'void_return' => true,
-    'native_function_invocation' => ['include' => ['@all']],
-    'phpdoc_to_comment' => false,
-    'single_line_throw' => false,
-    'echo_tag_syntax' => ['format' => 'short'],
-    'simplified_if_return' => true,
-    'simplified_null_return' => true,
-    'method_argument_space' => true,
-    'phpdoc_annotation_without_dot' => false,
-    'increment_style' => ['style' => 'post'],
-    'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
-  ]);
+    'function_typehint_space' => true,
+    'single_quote' => true,
+    'no_unused_imports' => true,
+    'no_whitespace_before_comma_in_array' => true,
+    'trim_array_spaces' => true,
+    'unary_operator_spaces' => true,
+    'whitespace_after_comma_in_array' => true,
+    'phpdoc_align' => ['align' => 'left'],
+    'phpdoc_indent' => true,
+    'phpdoc_no_empty_return' => true,
+    'phpdoc_scalar' => true,
+    'phpdoc_separation' => true,
+    'phpdoc_single_line_var_spacing' => true,
+    'phpdoc_summary' => true,
+    'phpdoc_to_comment' => true,
+    'phpdoc_trim' => true,
+    'phpdoc_types' => true,
+    'phpdoc_var_without_name' => true,
+    'return_type_declaration' => [
+      'space_before' => 'none',
+    ],
+    'single_blank_line_before_namespace' => true,
+    'single_trait_insert_per_statement' => true,
+  ])
+  ->setFinder($finder);

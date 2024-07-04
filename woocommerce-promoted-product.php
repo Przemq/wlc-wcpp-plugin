@@ -15,7 +15,7 @@ License:     GPL2
 use WoocommerceFeaturedProduct\WCPP_Promoted_Product;
 
 if (!\defined('ABSPATH')) {
-  exit('You are not allowed to be here');
+    exit('You are not allowed to be here');
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -37,32 +37,34 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 function wcpp_init(): void
 {
-  if (!function_exists('is_plugin_active')) {
-    require_once ABSPATH . 'wp-admin/includes/plugin.php';
-  }
+    if (!function_exists('is_plugin_active')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
 
-  $woocommerce_active = is_plugin_active('woocommerce/woocommerce.php');
+    $woocommerce_active = is_plugin_active('woocommerce/woocommerce.php');
 
-  if (is_multisite()) {
-    $woocommerce_active = $woocommerce_active || is_plugin_active_for_network('woocommerce/woocommerce.php');
-  }
+    if (is_multisite()) {
+        $woocommerce_active = $woocommerce_active || is_plugin_active_for_network('woocommerce/woocommerce.php');
+    }
 
-  if (!$woocommerce_active) {
-    add_action('admin_notices', 'wcpp_woocommerce_inactive_notice');
-    deactivate_plugins(plugin_basename(__FILE__));
-    return;
-  }
+    if (!$woocommerce_active) {
+        add_action('admin_notices', 'wcpp_woocommerce_inactive_notice');
+        deactivate_plugins(plugin_basename(__FILE__));
+
+        return;
+    }
 
 
-  $plugin = new WCPP_Promoted_Product();
-  $plugin->run();
+    $plugin = new WCPP_Promoted_Product();
+    $plugin->run();
 }
 
 \add_action('plugins_loaded', 'wcpp_init');
 
 
-function wcpp_woocommerce_inactive_notice() {
-  echo '<div class="notice notice-warning is-dismissible"><p>';
-  _e('WooCommerce Promoted Product requires WooCommerce to be installed and active.', 'woocommerce-promoted-product');
-  echo '</p></div>';
+function wcpp_woocommerce_inactive_notice()
+{
+    echo '<div class="notice notice-warning is-dismissible"><p>';
+    _e('WooCommerce Promoted Product requires WooCommerce to be installed and active.', 'woocommerce-promoted-product');
+    echo '</p></div>';
 }

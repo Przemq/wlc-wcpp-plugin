@@ -13,21 +13,20 @@ if (!\defined('ABSPATH')) {
 
 class WCPP_Admin_Notices
 {
+    private Environment $twig;
 
-  private Environment $twig;
-
-  public function __construct()
-  {
-    $this->twig = TwigProvider::getInstance()->getTwig();
-  }
+    public function __construct()
+    {
+        $this->twig = TwigProvider::getInstance()->getTwig();
+    }
 
     public function wcpp_display_promoted_product_changed_message(): void
     {
-      if (\get_transient('wcpp_promoted_product_changed_notice')) {
-        echo $this->twig->render('promoted-product-changed-message.twig', [
-          'message' => \__('The promoted product has been updated.', 'woocommerce-promoted-product'),
-        ]);
-        \delete_transient('wcpp_promoted_product_changed_notice');
-      }
+        if (\get_transient('wcpp_promoted_product_changed_notice')) {
+            echo $this->twig->render('promoted-product-changed-message.twig', [
+              'message' => \__('The promoted product has been updated.', 'woocommerce-promoted-product'),
+            ]);
+            \delete_transient('wcpp_promoted_product_changed_notice');
+        }
     }
 }
