@@ -17,8 +17,8 @@ class WCPP_Product_Fields
   private Environment $twig;
   public function __construct()
   {
-    $serviceProvider = new TwigProvider();
-    $this->twig = $serviceProvider->getTwig();
+    $this->twig = TwigProvider::getInstance()->getTwig();
+
   }
 
     /**
@@ -35,7 +35,11 @@ class WCPP_Product_Fields
         );
     }
 
-    public function wcpp_add_custom_title_field(): void
+  /**
+   * Add custom title field to product.
+   * @return void
+   */
+  public function wcpp_add_custom_title_field(): void
     {
         \woocommerce_wp_text_input(
             [
@@ -47,7 +51,11 @@ class WCPP_Product_Fields
         );
     }
 
-    public function wcpp_add_set_expiration_checkbox_field(): void
+  /**
+   * Add set expiration checkbox field to product.
+   * @return void
+   */
+  public function wcpp_add_set_expiration_checkbox_field(): void
     {
         \woocommerce_wp_checkbox(
             [

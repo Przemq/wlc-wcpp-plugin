@@ -72,6 +72,10 @@ class WCPP_Actions
   }
 
 
+  /**
+   * Prepare promoted product settings.
+   * @return array
+   */
   private function wcpp_get_promoted_product_settings(): array
     {
         $title_prefix = \get_option(WCPP_PROMOTED_PRODUCT_PREFIX) ?? 'FLASH SALE';
@@ -85,7 +89,12 @@ class WCPP_Actions
         ];
     }
 
-    private function wcpp_is_promoted_product_expired(int $product_id): bool
+  /**
+   * Check if promoted product has expired.
+   * @param int $product_id
+   * @return bool
+   */
+  private function wcpp_is_promoted_product_expired(int $product_id): bool
     {
       $is_set_expiration = \get_post_meta($product_id, WCPP_IS_SET_EXPIRTAION, true);
       $expiration_date = \get_post_meta($product_id, WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE, true);

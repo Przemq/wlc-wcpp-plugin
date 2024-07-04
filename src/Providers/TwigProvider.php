@@ -7,7 +7,10 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigProvider
 {
-    private $twig;
+  private static $instance = null;
+
+  private $twig;
+
 
     public function __construct()
     {
@@ -21,6 +24,15 @@ class TwigProvider
         'cache' => $cachePath,
       ]);
     }
+
+  public static function getInstance(): self
+  {
+    if (self::$instance === null) {
+      self::$instance = new self();
+    }
+
+    return self::$instance;
+  }
 
     public function getTwig(): Environment
     {
