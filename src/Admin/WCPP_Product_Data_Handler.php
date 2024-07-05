@@ -9,7 +9,7 @@ class WCPP_Product_Data_Handler
      */
     public function wcpp_save_is_promoted_field(int $post_id): void
     {
-        $is_promoted = $this->sanitize_and_validate_input($post_id);
+        $is_promoted = $this->sanitize_and_validate_input(WCPP_IS_PROMOTED_PRODUCT);
         if (null === $is_promoted) {
             return;
         }
@@ -17,13 +17,13 @@ class WCPP_Product_Data_Handler
         delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
     }
 
-    private function sanitize_and_validate_input($post_id): ?string
+    private function sanitize_and_validate_input(string $post_variable): ?string
     {
-        if (!isset($_POST[WCPP_IS_PROMOTED_PRODUCT])) {
+        if (!isset($_POST[$post_variable])) {
             return null;
         }
 
-        return sanitize_text_field($_POST[WCPP_IS_PROMOTED_PRODUCT]);
+        return sanitize_text_field($_POST[$post_variable]);
     }
 
     /**
@@ -52,11 +52,12 @@ class WCPP_Product_Data_Handler
 
     public function wcpp_save_custom_title(int $post_id): void
     {
-        if (!isset($_POST[WCPP_CUSTOM_TITLE_META_KEY])) {
+        $custom_title = $this->sanitize_and_validate_input(WCPP_CUSTOM_TITLE_META_KEY);
+
+        if (null === $custom_title) {
             return;
         }
 
-        $custom_title = \sanitize_text_field($_POST[WCPP_CUSTOM_TITLE_META_KEY]);
         \update_post_meta($post_id, WCPP_CUSTOM_TITLE_META_KEY, $custom_title);
 
         \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
@@ -64,11 +65,12 @@ class WCPP_Product_Data_Handler
 
     public function wcpp_save_promoted_expiration_date(int $post_id): void
     {
-        if (!isset($_POST[WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE])) {
+        $expiration_date_raw = $this->sanitize_and_validate_input(WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE);
+
+        if (null === $expiration_date_raw) {
             return;
         }
 
-        $expiration_date_raw = $_POST[WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE];
         $expiration_date = \sanitize_text_field($expiration_date_raw);
         \update_post_meta($post_id, WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE, $expiration_date);
 
