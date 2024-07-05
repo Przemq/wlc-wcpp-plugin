@@ -100,10 +100,10 @@ class WCPP_Settings
 
         $edit_link = \admin_url('post.php?post=' . $active_promoted_product_id . '&action=edit');
 
-      return $this->twig->render('active-promoted-product-display.twig', [
-        'product_title' => $product_title,
-        'edit_link' => $edit_link,
-      ]);
+        return $this->twig->render('active-promoted-product-display.twig', [
+          'product_title' => $product_title,
+          'edit_link'     => $edit_link,
+        ]);
     }
 
     public function wcpp_clear_transient(): void

@@ -32,14 +32,8 @@ class WCPP_Actions
             return;
         }
 
-        $cached_product = \get_transient('wcpp_promoted_product_data');
-        if ($cached_product) {
-            \wp_send_json_success($cached_product);
-
-            return;
-        }
-
         $promoted_post_id = (int) \get_option(WCPP_PROMOTED_PRODUCT_ID);
+
         if (!$promoted_post_id) {
             \wp_send_json_error('No promoted product set.');
 
@@ -48,6 +42,13 @@ class WCPP_Actions
 
         if ($this->wcpp_is_promoted_product_expired($promoted_post_id)) {
             \wp_send_json_error('Promoted product has expired.');
+
+            return;
+        }
+
+        $cached_product = \get_transient('wcpp_promoted_product_data');
+        if ($cached_product) {
+            \wp_send_json_success($cached_product);
 
             return;
         }
@@ -104,17 +105,25 @@ class WCPP_Actions
     private function wcpp_is_promoted_product_expired(int $product_id): bool
     {
         $is_set_expiration = \get_post_meta($product_id, WCPP_IS_SET_EXPIRTAION, true);
-        $expiration_date = \get_post_meta($product_id, WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE, true);
+        $expiration_date_str = \get_post_meta($product_id, WCPP_PROMOTED_PRODUCT_EXPIRATION_DATE, true);
 
-        if (!$expiration_date || !$is_set_expiration) {
+        if (!$expiration_date_str || 'yes' !== $is_set_expiration) {
             return false;
         }
 
-        $expiration_date = \DateTime::createFromFormat('Y-m-d H:i', $expiration_date);
+        $timezone_string = get_option('timezone_string');
+        if (!$timezone_string) {
+            $timezone_string = 'UTC';
+        }
+        $timezone = new \DateTimeZone($timezone_string);
+
+        $expiration_date = \DateTime::createFromFormat('Y-m-d H:i', $expiration_date_str, $timezone);
+        $current_date = new \DateTime('now', $timezone);
+
         if (!$expiration_date) {
             return false;
         }
 
-        return $expiration_date < new \DateTime();
+        return $expiration_date < $current_date;
     }
 }
