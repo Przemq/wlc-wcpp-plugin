@@ -9,26 +9,45 @@ class WCPP_Product_Data_Handler
      */
     public function wcpp_save_is_promoted_field(int $post_id): void
     {
-        $is_promoted = isset($_POST[WCPP_IS_PROMOTED_PRODUCT])
-          ? \sanitize_text_field($_POST[WCPP_IS_PROMOTED_PRODUCT])
-          : 'no';
-        $current_promoted_id = \get_option(WCPP_PROMOTED_PRODUCT_ID);
+        $is_promoted = $this->sanitize_and_validate_input($post_id);
+        if (null === $is_promoted) {
+            return;
+        }
+        $this->update_promoted_product($post_id, $is_promoted);
+        delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
+    }
 
-        if ('yes' === $is_promoted) {
-            if (!empty($current_promoted_id) && $current_promoted_id != $post_id) {
-                \delete_post_meta($current_promoted_id, WCPP_IS_PROMOTED_PRODUCT);
-                \set_transient('wcpp_promoted_product_changed_notice', true, 10);
-            }
-            \update_option(WCPP_PROMOTED_PRODUCT_ID, $post_id);
-            \update_post_meta($post_id, WCPP_IS_PROMOTED_PRODUCT, $is_promoted);
-        } else {
-            if ($current_promoted_id == $post_id) {
-                \delete_option(WCPP_PROMOTED_PRODUCT_ID);
-                \delete_post_meta($post_id, WCPP_IS_PROMOTED_PRODUCT);
-            }
+    private function sanitize_and_validate_input($post_id): ?string
+    {
+        if (!isset($_POST[WCPP_IS_PROMOTED_PRODUCT])) {
+            return null;
         }
 
-        \delete_transient(WCPP_PROMOTED_PRODUCT_DATA);
+        return sanitize_text_field($_POST[WCPP_IS_PROMOTED_PRODUCT]);
+    }
+
+  /**
+   * Update promoted product
+   * @param $post_id
+   * @param $is_promoted
+   * @return void
+   */
+  private function update_promoted_product($post_id, $is_promoted): void
+    {
+        $current_promoted_id = get_option(WCPP_PROMOTED_PRODUCT_ID);
+        if ('yes' === $is_promoted) {
+            if (!empty($current_promoted_id) && $current_promoted_id != $post_id) {
+                delete_post_meta($current_promoted_id, WCPP_IS_PROMOTED_PRODUCT);
+                set_transient('wcpp_promoted_product_changed_notice', true, 10);
+            }
+            update_option(WCPP_PROMOTED_PRODUCT_ID, $post_id);
+            update_post_meta($post_id, WCPP_IS_PROMOTED_PRODUCT, $is_promoted);
+        } else {
+            if ($current_promoted_id == $post_id) {
+                delete_option(WCPP_PROMOTED_PRODUCT_ID);
+                delete_post_meta($post_id, WCPP_IS_PROMOTED_PRODUCT);
+            }
+        }
     }
 
     public function wcpp_save_custom_title(int $post_id): void
