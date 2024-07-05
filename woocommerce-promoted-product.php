@@ -61,7 +61,7 @@ function wcpp_init(): void
 \add_action('plugins_loaded', 'wcpp_init');
 
 
-function wcpp_woocommerce_inactive_notice()
+function wcpp_woocommerce_inactive_notice(): void
 {
     echo '<div class="notice notice-warning is-dismissible"><p>';
     _e('WooCommerce Promoted Product requires WooCommerce to be installed and active.', 'woocommerce-promoted-product');

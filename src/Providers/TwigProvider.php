@@ -9,7 +9,7 @@ class TwigProvider
 {
     private static $instance = null;
 
-    private $twig;
+    private Environment $twig;
 
 
     public function __construct()

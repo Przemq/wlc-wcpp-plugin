@@ -41,6 +41,9 @@ class WCPP_Actions
         }
 
         if ($this->wcpp_is_promoted_product_expired($promoted_post_id)) {
+            \delete_option(WCPP_PROMOTED_PRODUCT_ID);
+            \delete_post_meta($promoted_post_id, WCPP_IS_PROMOTED_PRODUCT);
+
             \wp_send_json_error('Promoted product has expired.');
 
             return;
