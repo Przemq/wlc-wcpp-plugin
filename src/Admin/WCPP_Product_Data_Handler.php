@@ -26,13 +26,13 @@ class WCPP_Product_Data_Handler
         return sanitize_text_field($_POST[WCPP_IS_PROMOTED_PRODUCT]);
     }
 
-  /**
-   * Update promoted product
-   * @param $post_id
-   * @param $is_promoted
-   * @return void
-   */
-  private function update_promoted_product($post_id, $is_promoted): void
+    /**
+     * Update promoted product.
+     *
+     * @param $post_id
+     * @param $is_promoted
+     */
+    private function update_promoted_product($post_id, $is_promoted): void
     {
         $current_promoted_id = get_option(WCPP_PROMOTED_PRODUCT_ID);
         if ('yes' === $is_promoted) {

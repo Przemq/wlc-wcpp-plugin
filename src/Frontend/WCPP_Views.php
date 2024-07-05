@@ -16,9 +16,10 @@ class WCPP_Views
     {
         global $product;
         $is_promoted = get_post_meta($product->get_id(), WCPP_IS_PROMOTED_PRODUCT, true);
+        $promoted_product_id = (int) get_option(WCPP_PROMOTED_PRODUCT_ID);
         $promoted_product_prefix = get_option(WCPP_PROMOTED_PRODUCT_PREFIX);
 
-        if ('yes' === $is_promoted) {
+        if ('yes' === $is_promoted && $promoted_product_id === $product->get_id()) {
             echo '<p class="wcpp_is_promoted_product">' . esc_html($promoted_product_prefix) . '</p>';
         }
     }
